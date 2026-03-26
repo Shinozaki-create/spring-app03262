@@ -18,7 +18,7 @@
                     <div class="card-body p-4 p-md-5">
                         <h1 class="h3 mb-4">ToDo新規登録</h1>
 
-                        <form>
+                        <form th:action="@{/todo/confirm}" method="post">
                             <div class="mb-4">
                                 <label for="title" class="form-label">タイトル</label>
                                 <input
@@ -26,11 +26,31 @@
                                     id="title"
                                     name="title"
                                     class="form-control form-control-lg"
-                                    placeholder="ToDoのタイトルを入力してください">
+                                    placeholder="ToDoのタイトルを入力してください"
+                                    required>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="description" class="form-label">説明</label>
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    class="form-control"
+                                    rows="4"
+                                    placeholder="ToDoの説明を入力してください"></textarea>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="priority" class="form-label">重要度</label>
+                                <select id="priority" name="priority" class="form-select" required>
+                                    <option value="高">高</option>
+                                    <option value="中" selected>中</option>
+                                    <option value="低">低</option>
+                                </select>
                             </div>
 
                             <div class="d-flex gap-2">
-                                <a th:href="@{/todo/confirm}" class="btn btn-primary">確認画面へ</a>
+                                <button type="submit" class="btn btn-primary">確認画面へ</button>
                                 <a th:href="@{/todo}" class="btn btn-outline-secondary">戻る</a>
                             </div>
                         </form>
