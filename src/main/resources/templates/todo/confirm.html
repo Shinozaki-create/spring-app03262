@@ -18,26 +18,23 @@
                     <div class="card-body p-4 p-md-5">
                         <h1 class="h3 mb-4">登録内容の確認</h1>
 
-                        <div class="card border bg-body-tertiary mb-4">
-                            <div class="card-body">
-                                <h2 class="h5 mb-3">ToDo情報</h2>
-                                <dl class="row mb-0">
-                                    <dt class="col-sm-4 text-muted">タイトル</dt>
-                                    <dd class="col-sm-8" th:text="${title}">サンプルタスク</dd>
-
-                                    <dt class="col-sm-4 text-muted">説明</dt>
-                                    <dd class="col-sm-8" th:text="${description}">説明文</dd>
-
-                                    <dt class="col-sm-4 text-muted">重要度</dt>
-                                    <dd class="col-sm-8" th:text="${priority}">中</dd>
-                                </dl>
+                        <form th:action="@{/todo/complete}" method="post">
+                            <div class="card border bg-body-tertiary mb-4">
+                                <div class="card-body">
+                                    <h2 class="h5 mb-3">ToDo情報</h2>
+                                    <div>
+                                        <label for="title" class="form-label text-muted">タイトル</label>
+                                        <input id="title" type="text" class="form-control" th:value="${title}" readonly>
+                                        <input type="hidden" name="title" th:value="${title}">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="d-flex gap-2">
-                            <a th:href="@{/todo/complete}" class="btn btn-success">登録</a>
-                            <a th:href="@{/todo/new}" class="btn btn-outline-secondary">戻る</a>
-                        </div>
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-success">登録</button>
+                                <button type="button" class="btn btn-outline-secondary" onclick="history.back()">戻る</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
