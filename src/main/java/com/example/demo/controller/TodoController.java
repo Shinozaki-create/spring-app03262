@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.model.Todo;
 import com.example.demo.service.TodoService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,17 @@ public class TodoController {
         return "todo/form";
     }
 
+    @GetMapping("/{id}/edit")
+    public String showEditForm(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+        Todo todo = todoService.findById(id);
+        if (todo == null) {
+            redirectAttributes.addFlashAttribute("errorMessage", "ToDoが見つかりませんでした");
+            return "redirect:/todo";
+        }
+        model.addAttribute("todo", todo);
+        return "todo/edit";
+    }
+
     @PostMapping("/confirm")
     public String confirm(
             @RequestParam("title") String title,
@@ -46,6 +58,20 @@ public class TodoController {
     @PostMapping("/complete")
     public String complete(@RequestParam("title") String title) {
         todoService.create(title);
+        return "redirect:/todo";
+    }
+
+    @PostMapping("/{id}/update")
+    public String update(
+            @PathVariable("id") Long id,
+            @RequestParam("title") String title,
+            RedirectAttributes redirectAttributes) {
+        boolean updated = todoService.update(id, title);
+        if (updated) {
+            redirectAttributes.addFlashAttribute("successMessage", "更新が完了しました");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "更新に失敗しました");
+        }
         return "redirect:/todo";
     }
 
