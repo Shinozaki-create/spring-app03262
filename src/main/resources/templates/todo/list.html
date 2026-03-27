@@ -25,18 +25,20 @@
                             <tr>
                                 <th scope="col" class="px-4 py-3">ID</th>
                                 <th scope="col" class="py-3">タイトル</th>
-                                <th scope="col" class="py-3">ステータス</th>
+                                <th scope="col" class="py-3">完了状態</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="todo : ${todoList}">
+                            <tr th:each="todo : ${todos}">
                                 <td class="px-4" th:text="${todo.id}">1</td>
                                 <td th:text="${todo.title}">Spring Bootの学習</td>
                                 <td>
-                                    <span class="badge text-bg-secondary" th:text="${todo.status}">進行中</span>
+                                    <span class="badge"
+                                          th:classappend="${todo.completed} ? ' text-bg-success' : ' text-bg-secondary'"
+                                          th:text="${todo.completed} ? '完了' : '未完了'">未完了</span>
                                 </td>
                             </tr>
-                            <tr th:if="${#lists.isEmpty(todoList)}">
+                            <tr th:if="${#lists.isEmpty(todos)}">
                                 <td colspan="3" class="text-center text-muted py-4">ToDoはまだ登録されていません。</td>
                             </tr>
                         </tbody>
