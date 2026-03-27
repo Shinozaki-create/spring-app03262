@@ -9,16 +9,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.model.Todo;
+import com.example.demo.service.TodoService;
+
+import lombok.RequiredArgsConstructor;
+
 @Controller
 @RequestMapping("/todo")
+@RequiredArgsConstructor
 public class TodoController {
+
+    private final TodoService todoService;
 
     @GetMapping
     public String list(Model model) {
-        List<TodoItem> todoList = List.of(
-                new TodoItem(1L, "Spring Bootの学習", "進行中"),
-                new TodoItem(2L, "ToDo一覧画面の作成", "未着手"),
-                new TodoItem(3L, "Thymeleafテンプレート確認", "完了"));
+        List<TodoItem> todoList = todoService.findAll().stream()
+                .map(this::toTodoItem)
+                .toList();
 
         model.addAttribute("todoList", todoList);
         return "todo/list";
@@ -42,9 +49,14 @@ public class TodoController {
     }
 
     @PostMapping("/complete")
-    public String complete(@RequestParam("title") String title, Model model) {
-        model.addAttribute("title", title);
-        return "todo/complete";
+    public String complete(@RequestParam("title") String title) {
+        todoService.create(title);
+        return "redirect:/todo";
+    }
+
+    private TodoItem toTodoItem(Todo todo) {
+        String status = Boolean.TRUE.equals(todo.getCompleted()) ? "\u5B8C\u4E86" : "\u672A\u5B8C\u4E86";
+        return new TodoItem(todo.getId(), todo.getTitle(), status);
     }
 
     public record TodoItem(Long id, String title, String status) {
