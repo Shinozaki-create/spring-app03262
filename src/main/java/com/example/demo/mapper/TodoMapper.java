@@ -1,4 +1,4 @@
-package com.example.demo.mapper;
+﻿package com.example.demo.mapper;
 
 import java.util.List;
 
@@ -8,4 +8,6 @@ public interface TodoMapper {
     List<Todo> findAll();
 
     int insert(Todo todo);
+
+    int deleteById(Long id);
 }

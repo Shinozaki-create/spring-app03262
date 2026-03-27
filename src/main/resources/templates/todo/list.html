@@ -44,6 +44,7 @@
                                 <th scope="col" class="px-4 py-3">ID</th>
                                 <th scope="col" class="py-3">タイトル</th>
                                 <th scope="col" class="py-3">完了状態</th>
+                                <th scope="col" class="py-3 text-center">操作</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,6 +55,11 @@
                                     <span class="badge"
                                           th:classappend="${todo.completed} ? ' text-bg-success' : ' text-bg-secondary'"
                                           th:text="${todo.completed} ? '完了' : '未完了'">未完了</span>
+                                </td>
+                                <td class="text-center">
+                                    <form th:action="@{/todo/{id}/delete(id=${todo.id})}" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-danger btn-sm">削除</button>
+                                    </form>
                                 </td>
                             </tr>
                         </tbody>
