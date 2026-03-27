@@ -60,11 +60,18 @@
                         <tbody>
                             <tr th:each="todo : ${todos}">
                                 <td class="px-4" th:text="${todo.id}">1</td>
-                                <td class="fw-semibold" th:text="${todo.title}">Spring Bootの学習</td>
                                 <td>
-                                    <span class="badge"
-                                          th:classappend="${todo.completed} ? ' text-bg-success' : ' text-bg-secondary'"
-                                          th:text="${todo.completed} ? '完了' : '未完了'">未完了</span>
+                                    <span class="fw-semibold"
+                                          th:style="${todo.completed} ? 'text-decoration: line-through; color: #6c757d;' : ''"
+                                          th:text="${todo.title}">Spring Bootの学習</span>
+                                </td>
+                                <td>
+                                    <form th:action="@{/todo/{id}/toggle(id=${todo.id})}" method="post" class="d-inline">
+                                        <button type="submit"
+                                                class="btn btn-sm"
+                                                th:classappend="${todo.completed} ? ' btn-success' : ' btn-outline-success'"
+                                                th:text="${todo.completed} ? '完了' : '未完了'">未完了</button>
+                                    </form>
                                 </td>
                                 <td class="text-center">
                                     <div class="d-inline-flex gap-2">
